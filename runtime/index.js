@@ -35,7 +35,7 @@ electron.app.on('browser-window-created', (_, window) => {
 	var type = app.config.type;
 	if (type !== 'auto') {
 		if (app.os === 'win10' && !windowsType.includes(type)) type = 'auto';
-		if (app.os === 'macos' && !macosType.includes(type)) type = 'auto';
+		if (app.os === 'macos' && !macosType.includes(type)) type = '';
 	}
 	if (type === 'auto') {
 		type = app.theme.type[app.os];
@@ -81,12 +81,14 @@ electron.app.on('browser-window-created', (_, window) => {
 			return;
 		}
 
-		window.setBackgroundColor('#00000000');
+		window.setBackgroundColor('#000000');
+		window.setOpacity(opacity);
 
 		clearInterval(backgroundColorTimer);
 		// https://github.com/microsoft/vscode/blob/9f8431f7fccf7a048531043eb6b6d24819482781/src/vs/platform/theme/electron-main/themeMainService.ts#L80
 		backgroundColorTimer = setInterval(() => {
-			window.setBackgroundColor('#00000000');
+			window.setBackgroundColor('#000000');
+			window.setOpacity(opacity);
 		}, 1000);
 
 		if (app.os === 'macos') {
@@ -170,11 +172,11 @@ function styleHTML() {
 			}
 		</style>
     `,
-		`
-    <style>
-      ${app.themeCSS}
-    </style>
-    `,
+//		`
+//    <style>
+//      ${app.themeCSS}
+//    </style>
+//    `,
 		...customImports.css
 	]
 
