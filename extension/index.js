@@ -119,9 +119,7 @@ function activate(context) {
 	var runtimeDir = appDir + '/vscode-vibrancy-runtime-' + runtimeVersion;
 
 	async function installRuntime() {
-		if (fs.existsSync(runtimeDir)) return;
-
-		await fs.mkdir(runtimeDir);
+		if (!fs.existsSync(runtimeDir)) await fs.mkdir(runtimeDir);
 		await fsExtra.copy(path.resolve(__dirname, '../runtime'), path.resolve(runtimeDir));
 	}
 
